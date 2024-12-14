@@ -12,6 +12,12 @@ This project contains an implementation of all the necessary components as well 
 - Files for individual component testing (`test_src/`)
 - Scripts for easy benchmarking (`params.sh` `run_cpp.sh` `run_omp.sh` `elaborate.sh`)
 
+# Load module 
+```
+module load nvhpc/24.3
+make -f makefile.acc
+```
+
 ## How to Compile
 
 C++ single-threaded serial implementation:
@@ -55,6 +61,12 @@ You can use two scripts to easily automate this process (they both rely on `para
 bash run_cpp.sh
 bash run_omp.sh
 ```
+
+# Run Nsys profile 
+```
+./run_cpp_nsys.sh --profile
+```
+
 
 ## How to Run on Leonardo
 
