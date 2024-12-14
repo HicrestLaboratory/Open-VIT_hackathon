@@ -49,7 +49,8 @@ void Linear::operator()(const Tensor& x_in, Tensor& x_out) const {
     Tensor y(x_in.get_B(), x_in.get_N(), out_features);
 
     vit_float cumulate;
-    #pragma omp parallel for collapse(3) private(cumulate) shared(y,use_bias,b,x_in,A) schedule(static)
+   
+   #pragma acc kernels
     for (int i=0;i<y.get_B();++i) {
         for (int j=0;j<y.get_N();++j) {
             for (int k=0;k<y.get_C();++k) {
@@ -161,7 +162,8 @@ void LayerNorm::operator()(Tensor& x, vit_size num_heads, vit_size head_dim) con
     vit_float var;
     vit_float st_dev;
     vit_float new_val;
-    #pragma omp parallel for collapse(3) private(mean, var, st_dev, new_val) shared(x,num_heads,head_dim,eps,g,use_bias,b) schedule(dynamic)
+    
+    #pragma acc kernels
     for (int i=0;i<x.get_B();++i) {
         for (int j=0;j<x.get_N();++j) {
             for (int k=0;k<num_heads;++k) {
@@ -260,7 +262,7 @@ LayerScale& LayerScale::operator= (const LayerScale& ln) {
 }
 
 void LayerScale::operator()(Tensor& x) const {
-    #pragma omp parallel for collapse(3) shared(x,val) schedule(static)
+    #pragma acc kernels	
     for (int i=0;i<x.get_B();++i) {
         for (int j=0;j<x.get_N();++j) {
             for (int k=0;k<x.get_C();++k) {
@@ -318,7 +320,7 @@ Activation& Activation::operator= (const Activation& a) {
 
 void Activation::operator()(Tensor& x) const {
     vit_float val;
-    #pragma omp parallel for collapse(3) private(val) shared(x) schedule(static)
+    #pragma acc kernels
     for (int i=0;i<x.get_B();++i) {
         for (int j=0;j<x.get_N();++j) {
             for (int k=0;k<x.get_C();++k) {
@@ -401,7 +403,7 @@ void global_pool_nlc (
 
     switch (pt) {
     case pool_token:
-        #pragma omp parallel for collapse(2) private(val) shared(x_in,y) schedule(static)
+	#pragma acc kernels    
         for (int i=0;i<x_in.get_B();++i) {
             for (int k=0;k<x_in.get_C();++k) {
                 val = x_in.at(i, 0, k);
@@ -410,8 +412,8 @@ void global_pool_nlc (
         }
         break;
     case pool_avg:
-        #pragma omp parallel for collapse(2) private(avg_val) shared(x_in,start_N,N_length,y) schedule(static)
-        for (int i=0;i<x_in.get_B();++i) {
+        #pragma acc kernels
+	for (int i=0;i<x_in.get_B();++i) {
             for (int k=0;k<x_in.get_C();++k) {
                 avg_val = x_in.at(i, start_N, k);
                 for (int j=start_N+1;j<x_in.get_N();++j) {
@@ -423,8 +425,8 @@ void global_pool_nlc (
         }
         break;
     case pool_max:
-        #pragma omp parallel for collapse(2) private(max_val,val) shared(x_in,start_N,y) schedule(static)
-        for (int i=0;i<x_in.get_B();++i) {
+        #pragma acc kernels
+	for (int i=0;i<x_in.get_B();++i) {
             for (int k=0;k<x_in.get_C();++k) {
                 max_val = x_in.at(i, start_N, k);
                 for (int j=start_N+1;j<x_in.get_N();++j) {
@@ -436,8 +438,8 @@ void global_pool_nlc (
         }
         break;
     case pool_avgmax:
-        #pragma omp parallel for collapse(2) private(avg_val,max_val,val) shared(x_in,start_N,N_length,y) schedule(static)
-        for (int i=0;i<x_in.get_B();++i) {
+        #pragma acc kernels
+	for (int i=0;i<x_in.get_B();++i) {
             for (int k=0;k<x_in.get_C();++k) {
                 avg_val = x_in.at(i, start_N, k);
                 max_val = x_in.at(i, start_N, k);

@@ -2,8 +2,8 @@
 CC := nvc++
 
 # Add OpenACC flag for compilation and execution, and use correct OpenMP flag (-mp)
-CFLAGS := -std=c++11 -O3 -Minfo=mp,acc
-OMPFLAGS := -mp -acc
+CFLAGS := -std=c++11 -O3 -Minfo=mp -I/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/nvhpc-24.3-v63z4inohb4ywjeggzhlhiuvuoejr2le/Linux_x86_64/24.3/cuda/include
+OMPFLAGS := -mp 
 
 # Bin, Obj, and Src Folders
 BIN_FOLDER := bin

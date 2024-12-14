@@ -4,11 +4,15 @@
 #include <iostream>
 #include <chrono>
 #include <openacc.h>
+
+#include <nvtx3/nvToolsExt.h>
+
 using namespace std;
 
 int main(int argc, char *argv[]) {
     acc_init(acc_device_default);
 
+    nvtxRangePushA("if");
     if (argc == 5) {
         string cvit_path = argv[1];
         string cpic_path = argv[2];
@@ -17,20 +21,26 @@ int main(int argc, char *argv[]) {
 
         VisionTransformer vit;
         auto start_time = chrono::high_resolution_clock::now();
+        nvtxRangePushA("VisionTransformer");
         load_cvit(cvit_path, vit);
-        auto end_time = chrono::high_resolution_clock::now();
+        nvtxRangePop();
+	auto end_time = chrono::high_resolution_clock::now();
         chrono::duration<double> load_cvit_time = end_time - start_time;
     
         PictureBatch pic;
         start_time = chrono::high_resolution_clock::now();
+	nvtxRangePushA("PictureBatch");
         load_cpic(cpic_path, pic);
+	nvtxRangePop();
         end_time = chrono::high_resolution_clock::now();
         chrono::duration<double> load_cpic_time = end_time - start_time;
 
         PredictionBatch pred;
 
         RowVector times;
+	nvtxRangePushA("timed_forward");
         vit.timed_forward(pic, pred, times);
+	nvtxRangePop();
 
         start_time = chrono::high_resolution_clock::now();
         store_cprd(cprd_path, pred);
@@ -49,6 +59,7 @@ int main(int argc, char *argv[]) {
     } else {
         cout << "Usage: vit <cvit_path> <cpic_path> <cprd_path> <measure_file_path>" << endl;
     }
+    nvtxRangePop();
 
     acc_shutdown(acc_device_default);
     return 0;
