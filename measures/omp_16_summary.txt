@@ -1,0 +1,156 @@
+Analysis of measures/omp_16.csv:
+   Number of batches: 1
+   Number of pictures: 16
+   Total time to analyze the dataset: 3.1009737820000005
+   Average model load time: 0.0450126 s
+
+   Average batch load time: 0.000449307 s
+   Average foreward time per batch: 3.0546244440000003 s
+      Patch Embed: 0.00943329 s
+      Position Embed: 0.000141882 s
+      Attention: 0.15713063750000003 s/block
+      MLP: 0.22341575000000002 s/block
+      Pool: 0.000430183 s
+      Head: 0.000247989 s
+   Average store time per prediction batch: 0.000887431 s
+
+   Average picture load time: 2.80816875e-05 s
+   Average foreward time per picture: 0.19091402775000002 s
+      Patch Embed: 0.000589580625 s
+      Position Embed: 8.867625e-06 s
+      Attention: 0.009820664843750002 s/block
+      MLP: 0.013963484375000002 s/block
+      Pool: 2.68864375e-05 s
+      Head: 1.54993125e-05 s
+   Average store time per single prediction : 5.54644375e-05 s
+
+Analysis of measures/omp_16.csv:
+   Number of batches: 1
+   Number of pictures: 16
+   Total time to analyze the dataset: 4.237023586
+   Average model load time: 0.0411773 s
+
+   Average batch load time: 0.000436957 s
+   Average foreward time per batch: 4.194352369000001 s
+      Patch Embed: 0.00943738 s
+      Position Embed: 0.00011859 s
+      Attention: 0.199042375 s/block
+      MLP: 0.323965875 s/block
+      Pool: 0.000455201 s
+      Head: 0.000275198 s
+   Average store time per prediction batch: 0.00105696 s
+
+   Average picture load time: 2.73098125e-05 s
+   Average foreward time per picture: 0.26214702306250004 s
+      Patch Embed: 0.00058983625 s
+      Position Embed: 7.411875e-06 s
+      Attention: 0.0124401484375 s/block
+      MLP: 0.0202478671875 s/block
+      Pool: 2.84500625e-05 s
+      Head: 1.7199875e-05 s
+   Average store time per single prediction : 6.606e-05 s
+
+Analysis of measures/omp_16.csv:
+   Number of batches: 1
+   Number of pictures: 16
+   Total time to analyze the dataset: 2.618664411
+   Average model load time: 1.14529 s
+
+   Average batch load time: 0.0274092 s
+   Average foreward time per batch: 1.444354941 s
+      Patch Embed: 0.00933789 s
+      Position Embed: 0.000152024 s
+      Attention: 0.073138575 s/block
+      MLP: 0.10615112500000001 s/block
+      Pool: 0.000327242 s
+      Head: 0.000220185 s
+   Average store time per prediction batch: 0.00161027 s
+
+   Average picture load time: 0.001713075 s
+   Average foreward time per picture: 0.0902721838125 s
+      Patch Embed: 0.000583618125 s
+      Position Embed: 9.5015e-06 s
+      Attention: 0.0045711609375 s/block
+      MLP: 0.006634445312500001 s/block
+      Pool: 2.0452625e-05 s
+      Head: 1.37615625e-05 s
+   Average store time per single prediction : 0.000100641875 s
+
+Analysis of measures/omp_16.csv:
+   Number of batches: 1
+   Number of pictures: 16
+   Total time to analyze the dataset: 1.4739995869999998
+   Average model load time: 0.0374644 s
+
+   Average batch load time: 0.000385977 s
+   Average foreward time per batch: 1.4348803499999998 s
+      Patch Embed: 0.00909649 s
+      Position Embed: 9.6484e-05 s
+      Attention: 0.07202045 s/block
+      MLP: 0.10614624999999998 s/block
+      Pool: 0.000140437 s
+      Head: 0.000213339 s
+   Average store time per prediction batch: 0.00126886 s
+
+   Average picture load time: 2.41235625e-05 s
+   Average foreward time per picture: 0.08968002187499999 s
+      Patch Embed: 0.000568530625 s
+      Position Embed: 6.03025e-06 s
+      Attention: 0.004501278125 s/block
+      MLP: 0.006634140624999999 s/block
+      Pool: 8.7773125e-06 s
+      Head: 1.33336875e-05 s
+   Average store time per single prediction : 7.930375e-05 s
+
+Analysis of measures/omp_16.csv:
+   Number of batches: 1
+   Number of pictures: 16
+   Total time to analyze the dataset: 1.4739693109999998
+   Average model load time: 0.0352441 s
+
+   Average batch load time: 0.000363747 s
+   Average foreward time per batch: 1.437426534 s
+      Patch Embed: 0.00920666 s
+      Position Embed: 7.9653e-05 s
+      Attention: 0.07244977500000001 s/block
+      MLP: 0.106023125 s/block
+      Pool: 0.00014256 s
+      Head: 0.000214461 s
+   Average store time per prediction batch: 0.00093493 s
+
+   Average picture load time: 2.27341875e-05 s
+   Average foreward time per picture: 0.089839158375 s
+      Patch Embed: 0.00057541625 s
+      Position Embed: 4.9783125e-06 s
+      Attention: 0.0045281109375000005 s/block
+      MLP: 0.0066264453125 s/block
+      Pool: 8.91e-06 s
+      Head: 1.34038125e-05 s
+   Average store time per single prediction : 5.8433125e-05 s
+
+Analysis of measures/omp_16.csv:
+   Number of batches: 1
+   Number of pictures: 16
+   Total time to analyze the dataset: 1.4713569739999999
+   Average model load time: 0.0353191 s
+
+   Average batch load time: 0.000353846 s
+   Average foreward time per batch: 1.4343380079999999 s
+      Patch Embed: 0.00911241 s
+      Position Embed: 0.000106905 s
+      Attention: 0.0719782875 s/block
+      MLP: 0.10611699999999999 s/block
+      Pool: 0.000142607 s
+      Head: 0.000213786 s
+   Average store time per prediction batch: 0.00134602 s
+
+   Average picture load time: 2.2115375e-05 s
+   Average foreward time per picture: 0.08964612549999999 s
+      Patch Embed: 0.000569525625 s
+      Position Embed: 6.6815625e-06 s
+      Attention: 0.00449864296875 s/block
+      MLP: 0.006632312499999999 s/block
+      Pool: 8.9129375e-06 s
+      Head: 1.3361625e-05 s
+   Average store time per single prediction : 8.412625e-05 s
+

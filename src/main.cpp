@@ -3,10 +3,12 @@
 
 #include <iostream>
 #include <chrono>
-
+#include <openacc.h>
 using namespace std;
 
 int main(int argc, char *argv[]) {
+    acc_init(acc_device_default);
+
     if (argc == 5) {
         string cvit_path = argv[1];
         string cpic_path = argv[2];
@@ -48,5 +50,6 @@ int main(int argc, char *argv[]) {
         cout << "Usage: vit <cvit_path> <cpic_path> <cprd_path> <measure_file_path>" << endl;
     }
 
+    acc_shutdown(acc_device_default);
     return 0;
 }
