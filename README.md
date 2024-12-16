@@ -18,6 +18,13 @@ module load nvhpc/24.3
 make -f makefile.acc
 ```
 
+# To run nsys profile 
+```
+- Serial: ./run_cpp_nsys.sh --profile 
+- Openmp: ./run_omp_nsys.sh --profile
+- Openacc./run_acc_nsys.sh --profile
+```
+
 ## How to Compile
 
 C++ single-threaded serial implementation:
