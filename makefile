@@ -1,9 +1,13 @@
-# Set the NVHPC compiler instead of g++
+# Load NVHPC compiler
 CC := nvc++
 
-# Add OpenACC flag for compilation and execution, and use correct OpenMP flag (-mp)
-CFLAGS := -std=c++11 -O3 -Minfo=mp -I/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/nvhpc-24.3-v63z4inohb4ywjeggzhlhiuvuoejr2le/Linux_x86_64/24.3/cuda/include
+NVHPC_INCLUDE_PATH := /leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/nvhpc-24.3-v63z4inohb4ywjeggzhlhiuvuoejr2le/Linux_x86_64/24.3
+CUDA_INCLUDE_PATH := $(NVHPC_INCLUDE_PATH)/cuda/include
+
+CFLAGS := -std=c++11 -O3 -I$(CUDA_INCLUDE_PATH)
 OMPFLAGS := -mp 
+
+##-acc -gpu=cc80,managed,lineinfo -Minfo=accel,all
 
 # Bin, Obj, and Src Folders
 BIN_FOLDER := bin

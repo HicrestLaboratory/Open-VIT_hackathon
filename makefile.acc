@@ -1,12 +1,14 @@
 # Compiler and Flags
 CC := nvc++
-CXXFLAGS := -std=c++11 -O3
-OMPFLAGS := -mp -c
+NVHPC_INCLUDE_PATH := /leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/nvhpc-24.3-v63z4inohb4ywjeggzhlhiuvuoejr2le/Linux_x86_64/24.3
+CUDA_INCLUDE_PATH := $(NVHPC_INCLUDE_PATH)/cuda/include
+
+CXXFLAGS := -std=c++11 -O3 -I$(CUDA_INCLUDE_PATH)
+OMPFLAGS := -mp -c -I$(CUDA_INCLUDE_PATH)
 
 # OpenACC / GPU Specific Compiler and Flags
-ACCFLAGS := -mp -acc -gpu=cc80,managed,lineinfo -Minfo=accel,all
-# OpenACC flags for CPU + NVIDIA GPU (e.g., cc60 for Pascal)
-LINKFLAGS := -L/usr/local/cuda/lib64 -lcudart
+ACCFLAGS := -mp -acc -gpu=cc80,managed,lineinfo -Minfo=accel,all -Minline=1000
+LINKFLAGS := -I$(CUDA_INCLUDE_PATH) -lcudart -lcublas -lcufft -lcusolver
 
 ## -lm -lcudart -cudalib=nvtx3  # Linking CUDA runtime
 

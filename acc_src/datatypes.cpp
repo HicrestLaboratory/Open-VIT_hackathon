@@ -26,10 +26,12 @@ RowVector::RowVector(vit_size _DIM) {
 RowVector::RowVector(vit_float* _data, vit_size data_dim) {
     DIM = data_dim;
     data = new vit_float[data_dim];
-    #pragma acc kernels 
+    #pragma acc enter data copyin(this[0:1], _data[0:data_dim])
+    #pragma acc parallel loop
     for (int i=0;i<data_dim;++i) {
         data[i] = _data[i];
     }
+    #pragma acc exit data copyout(this[0:1]) delete(_data[0:data_dim])    
 }
 
 RowVector::RowVector(RowVector&& v) {
@@ -42,6 +44,7 @@ RowVector::RowVector(RowVector&& v) {
 
 RowVector::~RowVector() {
     if (data != nullptr) {
+	#pragma acc exit data delete(this[0:1])    
         delete [] data;
     }
 }
@@ -63,18 +66,18 @@ RowVector RowVector::operator+ (const RowVector& v) const {
     assert(this->DIM == v.DIM);
     RowVector res(this->DIM);
 
-    #pragma acc kernels
+#pragma acc enter data copyin(this[0:1], v[0:1], res[0:1])
+    #pragma acc parallel loop
     for (int i=0;i<this->DIM;++i) {
         res.data[i] = this->data[i] + v.data[i];
     }
-
+#pragma acc enter data copyin(this[0:1], v[0:1], res[0:1])
     return res;
 }
 
 RowVector& RowVector::operator+= (const RowVector& v) {
     assert(this->DIM == v.DIM);
 
-    #pragma acc kernels
     for (int i=0;i<this->DIM;++i) {
         this->data[i] += v.data[i];
     }

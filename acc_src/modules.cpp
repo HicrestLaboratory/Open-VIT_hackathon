@@ -50,12 +50,17 @@ void Linear::operator()(const Tensor& x_in, Tensor& x_out) const {
 
     vit_float cumulate;
    
-   #pragma acc kernels
+   // Move data to GPU
+    #pragma acc enter data copyin(x_in[0:1], A[0:1], b[0:1])
+    #pragma acc enter data create(y[0:1])
+
+    #pragma acc parallel loop collapse(3)
     for (int i=0;i<y.get_B();++i) {
         for (int j=0;j<y.get_N();++j) {
             for (int k=0;k<y.get_C();++k) {
                 cumulate = use_bias==true ? b.at(k) : 0;
 
+		#pragma acc loop reduction(+:cumulate)
                 for (int l=0;l<x_in.get_C();++l) {
                     cumulate += x_in.at(i,j,l) * A.at(k,l);
                 }
@@ -65,6 +70,7 @@ void Linear::operator()(const Tensor& x_in, Tensor& x_out) const {
         }
     }
 
+    #pragma acc exit data copyout(y[0:1]) delete(x_in[0:1], A[0:1], b[0:1])
     x_out = std::move(y);
 }
 
@@ -163,23 +169,29 @@ void LayerNorm::operator()(Tensor& x, vit_size num_heads, vit_size head_dim) con
     vit_float st_dev;
     vit_float new_val;
     
-    #pragma acc kernels
+    // Move data to GPU
+    #pragma acc enter data copyin(x[0:1], g[0:1], b[0:1])
+
+    #pragma acc parallel loop collapse(3)
     for (int i=0;i<x.get_B();++i) {
         for (int j=0;j<x.get_N();++j) {
             for (int k=0;k<num_heads;++k) {
                 mean = 0.0;
+		#pragma acc loop reduction(+:mean)
                 for (int l=0;l<head_dim;++l) {
                     mean += x.at(i,j, (k*head_dim) + l);
                 }
                 mean /= (float) head_dim;
 
                 var = 0.0;
+		#pragma acc loop reduction(+:var)
                 for (int l=0;l<head_dim;++l) {
                     var += std::pow( x.at(i,j, (k*head_dim) + l) - mean, 2);
                 }
                 var /= (float) head_dim;
                 st_dev = 1.0 / std::sqrt( var + eps);
 
+		#pragma acc loop
                 for (int l=0;l<head_dim;++l) {
                     new_val = x.at(i,j, (k*head_dim) + l);
                     new_val = (new_val - mean) * st_dev * g.at(l);
@@ -190,6 +202,7 @@ void LayerNorm::operator()(Tensor& x, vit_size num_heads, vit_size head_dim) con
         }
     }
 
+    #pragma acc exit data delete(g[0:1], b[0:1])
 }
 
 vit_size LayerNorm::get_normalized_shape() const {
@@ -262,7 +275,8 @@ LayerScale& LayerScale::operator= (const LayerScale& ln) {
 }
 
 void LayerScale::operator()(Tensor& x) const {
-    #pragma acc kernels	
+    #pragma acc enter data copyin(x[0:1])
+    #pragma acc parallel loop collapse(3)	
     for (int i=0;i<x.get_B();++i) {
         for (int j=0;j<x.get_N();++j) {
             for (int k=0;k<x.get_C();++k) {
@@ -270,6 +284,7 @@ void LayerScale::operator()(Tensor& x) const {
             }
         }
     }
+    #pragma acc exit data delete()
 }
 
 vit_size LayerScale::get_dim() const {
@@ -320,7 +335,9 @@ Activation& Activation::operator= (const Activation& a) {
 
 void Activation::operator()(Tensor& x) const {
     vit_float val;
-    #pragma acc kernels
+    #pragma acc enter data copyin(x[0:1])
+
+    #pragma acc parallel loop collapse(3)
     for (int i=0;i<x.get_B();++i) {
         for (int j=0;j<x.get_N();++j) {
             for (int k=0;k<x.get_C();++k) {
@@ -330,6 +347,7 @@ void Activation::operator()(Tensor& x) const {
             }
         }
     }
+    #pragma acc exit data delete()
 }
 
 void Activation::set_act(vit_float (*_act)(vit_float val)) {

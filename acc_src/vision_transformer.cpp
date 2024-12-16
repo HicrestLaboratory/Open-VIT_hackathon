@@ -346,7 +346,10 @@ void VisionTransformer::position_embed(const Tensor& x_in, Tensor& x_out) const 
             }
         }
 
-	#pragma acc kernels
+	#pragma acc enter data copyin(x_in[0:1], cls_token[0:1], reg_token[0:1], pos_embed[0:1])
+    #pragma acc enter data create(y[0:1])
+
+	#pragma acc kernels loop
         for (int i=0;i<y.get_B();++i) {
             if (has_class_token == true) {
                 for (int k=0;k<y.get_C();++k) {
@@ -387,7 +390,6 @@ void VisionTransformer::position_embed(const Tensor& x_in, Tensor& x_out) const 
             }
         }
 
-	#pragma acc kernels
         for (int i=0;i<y.get_B();++i) {
             if (has_class_token == true) {
                 for (int k=0;k<y.get_C();++k) {
@@ -429,10 +431,13 @@ void VisionTransformer::position_embed(const Tensor& x_in, Tensor& x_out) const 
         }
     }
 
+    #pragma acc exit data copyout(y[0:1]) delete(x_in[0:1], cls_token[0:1], reg_token[0:1], pos_embed[0:1])
     x_out = std::move(y);
 }
 
 void VisionTransformer::forward_features(const PictureBatch& p_in, Tensor& x_out) const {
+    
+    #pragma acc enter data copyin(p_in[0:1])	
     patch_embed.forward(p_in,x_out);
 
     this->position_embed(x_out,x_out);
@@ -448,6 +453,7 @@ void VisionTransformer::forward_features(const PictureBatch& p_in, Tensor& x_out
     if (use_fc_norm == false) {
         norm(x_out);
     }
+    #pragma acc exit data delete(p_in[0:1])
 }
 
 void VisionTransformer::pool(const Tensor& x_in, Tensor& x_out) const {
@@ -455,11 +461,13 @@ void VisionTransformer::pool(const Tensor& x_in, Tensor& x_out) const {
 }
 
 void VisionTransformer::forward_head(const Tensor& x_in, Tensor& x_out) const {
+    #pragma acc enter data copyin(x_in[0:1])
     this->pool(x_in, x_out);
     if (use_fc_norm == true) {
         fc_norm(x_out);
     }
     head(x_out, x_out);
+    #pragma acc exit data copyout(x_out[0:1]) delete(x_in[0:1])
 }
 
 void VisionTransformer::forward(const PictureBatch& pic, PredictionBatch& pred) const {

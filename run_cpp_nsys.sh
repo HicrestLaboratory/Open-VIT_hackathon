@@ -2,6 +2,7 @@
 
 source params.sh
 
+
 # Check if profiling is enabled
 PROFILE=false
 for arg in "$@"; do
@@ -37,7 +38,7 @@ fi
 
 # Check if executable is available
 if [ ! -f "bin/vit.exe" ]; then
-    echo Error: missing bin/vit.exe file!
+    echo Error: missing omp_bin/vit.exe file!
     echo Run compile.sh script
     exit 1
 fi

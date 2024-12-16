@@ -146,7 +146,11 @@ void Conv2d::forward(const PictureBatch& x_in, PictureBatch& x_out) const {
 
     vit_float val;
 
-#pragma acc kernels loop 
+    // Move data to GPU
+    #pragma acc enter data copyin(input[0:1], weights[0:1], bias[0:1])
+    #pragma acc enter data create(output[0:1])
+
+    #pragma acc parallel loop collapse(4)
     for (int batch=0;batch<y.get_B();++batch) {
         for (int y_c=0;y_c<out_channels;++y_c) {
             for (int y_h=0;y_h<out_h;++y_h) {
@@ -171,6 +175,8 @@ void Conv2d::forward(const PictureBatch& x_in, PictureBatch& x_out) const {
     }
 
     x_out = std::move(y);
+
+    #pragma acc exit data copyout(output[0:1]) delete(input[0:1], weights[0:1], bias[0:1])
 }
 
 #else

@@ -39,7 +39,11 @@ int main(int argc, char *argv[]) {
 
         RowVector times;
 	nvtxRangePushA("timed_forward");
+
+	// Ensure data is moved to GPU before processing
+	#pragma acc enter data copyin(vit, pic)
         vit.timed_forward(pic, pred, times);
+	#pragma acc exit data copyout(pred, times) delete(vit, pic)
 	nvtxRangePop();
 
         start_time = chrono::high_resolution_clock::now();

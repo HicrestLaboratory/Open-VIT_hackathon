@@ -143,6 +143,9 @@ void Attention::from_ifstream(std::ifstream& is) {
 
 void Attention::forward(const Tensor& x_in, Tensor& x_out) const {
     Tensor query, key, value;
+
+    #pragma acc enter data copyin(x_in[0:1])
+    #pragma acc enter data create(query[0:1], key[0:1], value[0:1])
     q_gen(x_in, query);
     k_gen(x_in, key);
     v_gen(x_in, value);
@@ -153,6 +156,8 @@ void Attention::forward(const Tensor& x_in, Tensor& x_out) const {
     }
 
     multi_head_attention(query, key, value, scale, x_out, num_heads, head_dim);
+
+    #pragma acc exit data copyout(x_out[0:1]) delete(query[0:1], key[0:1], value[0:1], x_in[0:1])
 
     proj(x_out,x_out);
 }
@@ -191,14 +196,21 @@ void Attention::multi_head_attention(
 
     vit_float val;
     vit_float cumulative;
-    #pragma acc kernels 
+    
+    #pragma acc enter data copyin(query[0:1], key[0:1], value[0:1])
+    #pragma acc enter data create(qk[0:1], y[0:1])
+
+    #pragma acc parallel loop collapse(2)
     for (int batch=0;batch<y.get_B();++batch) {
         for (int nh=0;nh<num_heads;++nh) {
 
             // qk is the matrix product query * key^T
+	    #pragma acc loop independent 
             for (int q_n=0;q_n<N;++q_n) {
+		#pragma acc loop independent    
                 for (int k_n=0;k_n<N;++k_n) {
                     val = 0;
+		    #pragma acc loop reduction(+:val)
                     for (int c=0;c<_head_dim;++c) {
                         val +=
                             query.at(batch, q_n, (nh*_head_dim) + c) *
@@ -210,14 +222,17 @@ void Attention::multi_head_attention(
             }
 
             // softmax of qk
-            for (int qk_n=0;qk_n<N;++qk_n) {
+            #pragma acc loop independent
+	    for (int qk_n=0;qk_n<N;++qk_n) {
                 cumulative = 0;
+		#pragma acc loop reduction(+:cumulative)
                 for (int qk_c=0;qk_c<N;++qk_c) { // qk is B*N*(N*nh), that's why it's C is also N
                     val = qk.at(batch, qk_n, (nh*N) + qk_c);
                     val = std::exp(val);
                     cumulative += val;
                     qk.set(batch, qk_n, (nh*N) + qk_c, val);
                 }
+		#pragma acc loop independent
                 for (int qk_c=0;qk_c<N;++qk_c) {
                     val = qk.at(batch, qk_n, (nh*N) + qk_c);
                     val /= cumulative;
@@ -226,9 +241,12 @@ void Attention::multi_head_attention(
             }
 
             // y is the matrix product of qk * value
-            for (int qk_n=0;qk_n<N;++qk_n) {
+            #pragma acc loop independent
+	    for (int qk_n=0;qk_n<N;++qk_n) {
+		#pragma acc loop independent    
                 for (int v_c=0;v_c<_head_dim;++v_c) {
                     val = 0;
+		    #pragma acc loop reduction(+:val)
                     for (int qk_c=0;qk_c<N;++qk_c) { // qk_c is also v_n
                         val +=
                             qk.at(batch, qk_n, (nh*N) + qk_c) *
@@ -239,6 +257,8 @@ void Attention::multi_head_attention(
             }
         }
     }
+
+    #pragma acc exit data copyout(y[0:1]) delete(query[0:1], key[0:1], value[0:1], qk[0:1])
 
     x_out = std::move(y);
 }
