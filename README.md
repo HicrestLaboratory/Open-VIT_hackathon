@@ -13,7 +13,7 @@ This project contains an implementation of all the necessary components as well 
 - Scripts for easy benchmarking (`params.sh` `run_cpp.sh` `run_omp.sh` `elaborate.sh`)
 
 ## --
-# Things to do when offloading codes on Leonardo system 
+# Things to do when offload the code on Leonardo system 
 
 ## Load the NVHPC compiler, compile your code with: 
 ```
