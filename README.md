@@ -12,18 +12,32 @@ This project contains an implementation of all the necessary components as well 
 - Files for individual component testing (`test_src/`)
 - Scripts for easy benchmarking (`params.sh` `run_cpp.sh` `run_omp.sh` `elaborate.sh`)
 
-# Load module 
+## --
+# Things to do when offloading codes on Leonardo system 
+
+## Load the NVHPC compiler, compile your code with: 
 ```
 module load nvhpc/24.3
 make -f makefile.acc
 ```
 
-# To run nsys profile 
+## After compiling code: run and analysis with nsight system
+
+## To run nsys profile:
 ```
 - Serial: ./run_cpp_nsys.sh --profile 
 - Openmp: ./run_omp_nsys.sh --profile
 - Openacc./run_acc_nsys.sh --profile
 ```
+
+## Download NVIDIA Nsight Systems on your preferred laptop:
+
+```
+https://developer.nvidia.com/nsight-systems/get-started
+```
+
+## --
+
 
 ## How to Compile
 
