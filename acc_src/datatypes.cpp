@@ -85,15 +85,18 @@ RowVector& RowVector::operator+= (const RowVector& v) {
     return *this;
 }
 
+#pragma acc routine seq
 vit_size RowVector::get_DIM() const {
     return DIM;
 }
 
+#pragma acc routine seq
 vit_float RowVector::at(vit_size i) const {
     assert(i<DIM);
     return data[i];
 }
 
+#pragma acc routine seq
 void RowVector::set(vit_size i, vit_float val) {
     assert(i<DIM);
     data[i] = val;
@@ -239,6 +242,7 @@ vit_size Matrix::get_COLS() const {
     return COLS;
 }
 
+#pragma acc routine seq
 vit_float Matrix::at(vit_size i, vit_size j) const {
     assert(i<ROWS);
     assert(j<COLS);

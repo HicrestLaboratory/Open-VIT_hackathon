@@ -388,3 +388,11 @@ Analysis of measures/omp_16.csv:
       Head: 1.38628125e-05 s
    Average store time per single prediction : 7.1030625e-05 s
 
+Analysis of measures/omp_16.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0
+Analysis of measures/omp_16.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0

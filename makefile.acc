@@ -8,9 +8,7 @@ OMPFLAGS := -mp -c -I$(CUDA_INCLUDE_PATH)
 
 # OpenACC / GPU Specific Compiler and Flags
 ACCFLAGS := -mp -acc -gpu=cc80,managed,lineinfo -Minfo=accel,all -Minline=1000
-LINKFLAGS := -I$(CUDA_INCLUDE_PATH) -lcudart -lcublas -lcufft -lcusolver
-
-## -lm -lcudart -cudalib=nvtx3  # Linking CUDA runtime
+LINKFLAGS := -I$(CUDA_INCLUDE_PATH) -lcudart -lcublas -lcufft -lcusolver -lm -lcudart -cudalib=nvtx3  # Linking CUDA runtime
 
 # Directories
 BIN_FOLDER := bin

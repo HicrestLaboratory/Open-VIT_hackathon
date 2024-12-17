@@ -36,8 +36,8 @@ if [ ! -d "$DTASET_FOLDER" ]; then
 fi
 
 # Check if executable is available
-if [ ! -f "omp_bin/vit.exe" ]; then
-    echo "Error: missing omp_bin/vit.exe file!"
+if [ ! -f "acc_bin/vit.exe" ]; then
+    echo "Error: missing acc_bin/vit.exe file!"
     echo "Run compile.sh script"
     exit 1
 fi
