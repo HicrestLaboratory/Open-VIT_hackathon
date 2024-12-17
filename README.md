@@ -34,6 +34,13 @@ make -f makefile.acc
 
 [Click here](https://developer.nvidia.com/nsight-systems/get-started)
 
+## Download the report on your local system 
+```
+./down.sh <account> <sys> <path> [exclude]
+or
+./down.sh -h
+```
+
 
 ## --
 
