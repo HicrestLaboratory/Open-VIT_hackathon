@@ -32,10 +32,9 @@ make -f makefile.acc
 
 ## Download NVIDIA Nsight Systems on your preferred laptop:
 
-```
 <a href="https://developer.nvidia.com/nsight-systems/get-started" target="_blank">Click here</a>
 [Click here](https://developer.nvidia.com/nsight-systems/get-started)
-```
+
 
 ## --
 
