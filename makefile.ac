@@ -5,11 +5,14 @@ CUDA_INCLUDE_PATH := $(NVHPC_INCLUDE_PATH)/cuda/12.3/include
 
 export LD_LIBRARY_PATH=/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/nvhpc-24.3-v63z4inohb4ywjeggzhlhiuvuoejr2le/Linux_x86_64/24.3/cuda/12.3/targets/x86_64-linux/lib/stubs:$LD_LIBRARY_PATH
 
+CUDA_LIB_PATH=$NVHPC_INCLUDE_PATH/cuda/12.3/targets/x86_64-linux/lib
+export LD_LIBRARY_PATH=$CUDA_LIB_PATH:$LD_LIBRARY_PATH
+
 CXXFLAGS := -std=c++11 -O3 -I$(CUDA_INCLUDE_PATH)
 OMPFLAGS := -mp -c -I$(CUDA_INCLUDE_PATH)
 
 # OpenACC / GPU Specific Compiler and Flags
-ACCFLAGS := -mp -acc -gpu=cc80,managed,lineinfo -Minfo=acc  ###-Minline=1000
+ACCFLAGS := -mp -acc -gpu=cc80,managed,cuda12.3,lineinfo -Minfo=acc  ###-Minline=1000
 LINKFLAGS := -I$(CUDA_INCLUDE_PATH) -lcudart -lcublas -lcufft -lcusolver -lm -lcudart -cudalib=nvtx3  # Linking CUDA runtime
 
 # Directories

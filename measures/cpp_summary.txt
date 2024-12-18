@@ -560,3 +560,319 @@ Analysis of measures/cpp.csv:
    Number of batches: 0
    Number of pictures: 0
    Total time to analyze the dataset: 0.0
+Analysis of measures/cpp.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0
+Analysis of measures/cpp.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0
+   Average model load time: N/A (no batches processed)
+   Average batch load time: N/A (no batches processed)
+   Average foreward time per batch: N/A (no batches processed)
+      Patch Embed: N/A (no batches processed)
+      Position Embed: N/A (no batches processed)
+      Attention: N/A (no batches processed)
+      MLP: N/A (no batches processed)
+      Pool: N/A (no batches processed)
+      Head: N/A (no batches processed)
+   Average store time per prediction batch: N/A (no batches processed)
+   Average picture load time: N/A (no pictures processed)
+   Average foreward time per picture: N/A (no pictures processed)
+      Patch Embed: N/A (no pictures processed)
+      Position Embed: N/A (no pictures processed)
+      Attention: N/A (no pictures processed)
+      MLP: N/A (no pictures processed)
+      Pool: N/A (no pictures processed)
+      Head: N/A (no pictures processed)
+   Average store time per single prediction : N/A (no pictures processed)
+
+Analysis of measures/cpp.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0
+   Average model load time: N/A (no batches processed)
+   Average batch load time: N/A (no batches processed)
+   Average foreward time per batch: N/A (no batches processed)
+      Patch Embed: N/A (no batches processed)
+      Position Embed: N/A (no batches processed)
+      Attention: N/A (no batches processed)
+      MLP: N/A (no batches processed)
+      Pool: N/A (no batches processed)
+      Head: N/A (no batches processed)
+   Average store time per prediction batch: N/A (no batches processed)
+   Average picture load time: N/A (no pictures processed)
+   Average foreward time per picture: N/A (no pictures processed)
+      Patch Embed: N/A (no pictures processed)
+      Position Embed: N/A (no pictures processed)
+      Attention: N/A (no pictures processed)
+      MLP: N/A (no pictures processed)
+      Pool: N/A (no pictures processed)
+      Head: N/A (no pictures processed)
+   Average store time per single prediction : N/A (no pictures processed)
+
+Analysis of measures/cpp.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0
+   Average model load time: N/A (no batches processed)
+   Average batch load time: N/A (no batches processed)
+   Average foreward time per batch: N/A (no batches processed)
+      Patch Embed: N/A (no batches processed)
+      Position Embed: N/A (no batches processed)
+      Attention: N/A (no batches processed)
+      MLP: N/A (no batches processed)
+      Pool: N/A (no batches processed)
+      Head: N/A (no batches processed)
+   Average store time per prediction batch: N/A (no batches processed)
+   Average picture load time: N/A (no pictures processed)
+   Average foreward time per picture: N/A (no pictures processed)
+      Patch Embed: N/A (no pictures processed)
+      Position Embed: N/A (no pictures processed)
+      Attention: N/A (no pictures processed)
+      MLP: N/A (no pictures processed)
+      Pool: N/A (no pictures processed)
+      Head: N/A (no pictures processed)
+   Average store time per single prediction : N/A (no pictures processed)
+
+Analysis of measures/cpp.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0
+   Average model load time: N/A (no batches processed)
+   Average batch load time: N/A (no batches processed)
+   Average foreward time per batch: N/A (no batches processed)
+      Patch Embed: N/A (no batches processed)
+      Position Embed: N/A (no batches processed)
+      Attention: N/A (no batches processed)
+      MLP: N/A (no batches processed)
+      Pool: N/A (no batches processed)
+      Head: N/A (no batches processed)
+   Average store time per prediction batch: N/A (no batches processed)
+   Average picture load time: N/A (no pictures processed)
+   Average foreward time per picture: N/A (no pictures processed)
+      Patch Embed: N/A (no pictures processed)
+      Position Embed: N/A (no pictures processed)
+      Attention: N/A (no pictures processed)
+      MLP: N/A (no pictures processed)
+      Pool: N/A (no pictures processed)
+      Head: N/A (no pictures processed)
+   Average store time per single prediction : N/A (no pictures processed)
+
+Analysis of measures/cpp.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0
+   Average model load time: N/A (no batches processed)
+   Average batch load time: N/A (no batches processed)
+   Average foreward time per batch: N/A (no batches processed)
+      Patch Embed: N/A (no batches processed)
+      Position Embed: N/A (no batches processed)
+      Attention: N/A (no batches processed)
+      MLP: N/A (no batches processed)
+      Pool: N/A (no batches processed)
+      Head: N/A (no batches processed)
+   Average store time per prediction batch: N/A (no batches processed)
+   Average picture load time: N/A (no pictures processed)
+   Average foreward time per picture: N/A (no pictures processed)
+      Patch Embed: N/A (no pictures processed)
+      Position Embed: N/A (no pictures processed)
+      Attention: N/A (no pictures processed)
+      MLP: N/A (no pictures processed)
+      Pool: N/A (no pictures processed)
+      Head: N/A (no pictures processed)
+   Average store time per single prediction : N/A (no pictures processed)
+
+Analysis of measures/cpp.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0
+   Average model load time: N/A (no batches processed)
+   Average batch load time: N/A (no batches processed)
+   Average foreward time per batch: N/A (no batches processed)
+      Patch Embed: N/A (no batches processed)
+      Position Embed: N/A (no batches processed)
+      Attention: N/A (no batches processed)
+      MLP: N/A (no batches processed)
+      Pool: N/A (no batches processed)
+      Head: N/A (no batches processed)
+   Average store time per prediction batch: N/A (no batches processed)
+   Average picture load time: N/A (no pictures processed)
+   Average foreward time per picture: N/A (no pictures processed)
+      Patch Embed: N/A (no pictures processed)
+      Position Embed: N/A (no pictures processed)
+      Attention: N/A (no pictures processed)
+      MLP: N/A (no pictures processed)
+      Pool: N/A (no pictures processed)
+      Head: N/A (no pictures processed)
+   Average store time per single prediction : N/A (no pictures processed)
+
+Analysis of measures/cpp.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0
+   Average model load time: N/A (no batches processed)
+   Average batch load time: N/A (no batches processed)
+   Average foreward time per batch: N/A (no batches processed)
+      Patch Embed: N/A (no batches processed)
+      Position Embed: N/A (no batches processed)
+      Attention: N/A (no batches processed)
+      MLP: N/A (no batches processed)
+      Pool: N/A (no batches processed)
+      Head: N/A (no batches processed)
+   Average store time per prediction batch: N/A (no batches processed)
+   Average picture load time: N/A (no pictures processed)
+   Average foreward time per picture: N/A (no pictures processed)
+      Patch Embed: N/A (no pictures processed)
+      Position Embed: N/A (no pictures processed)
+      Attention: N/A (no pictures processed)
+      MLP: N/A (no pictures processed)
+      Pool: N/A (no pictures processed)
+      Head: N/A (no pictures processed)
+   Average store time per single prediction : N/A (no pictures processed)
+
+Analysis of measures/cpp.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0
+   Average model load time: N/A (no batches processed)
+   Average batch load time: N/A (no batches processed)
+   Average foreward time per batch: N/A (no batches processed)
+      Patch Embed: N/A (no batches processed)
+      Position Embed: N/A (no batches processed)
+      Attention: N/A (no batches processed)
+      MLP: N/A (no batches processed)
+      Pool: N/A (no batches processed)
+      Head: N/A (no batches processed)
+   Average store time per prediction batch: N/A (no batches processed)
+   Average picture load time: N/A (no pictures processed)
+   Average foreward time per picture: N/A (no pictures processed)
+      Patch Embed: N/A (no pictures processed)
+      Position Embed: N/A (no pictures processed)
+      Attention: N/A (no pictures processed)
+      MLP: N/A (no pictures processed)
+      Pool: N/A (no pictures processed)
+      Head: N/A (no pictures processed)
+   Average store time per single prediction : N/A (no pictures processed)
+
+Analysis of measures/cpp.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0
+   Average model load time: N/A (no batches processed)
+   Average batch load time: N/A (no batches processed)
+   Average foreward time per batch: N/A (no batches processed)
+      Patch Embed: N/A (no batches processed)
+      Position Embed: N/A (no batches processed)
+      Attention: N/A (no batches processed)
+      MLP: N/A (no batches processed)
+      Pool: N/A (no batches processed)
+      Head: N/A (no batches processed)
+   Average store time per prediction batch: N/A (no batches processed)
+   Average picture load time: N/A (no pictures processed)
+   Average foreward time per picture: N/A (no pictures processed)
+      Patch Embed: N/A (no pictures processed)
+      Position Embed: N/A (no pictures processed)
+      Attention: N/A (no pictures processed)
+      MLP: N/A (no pictures processed)
+      Pool: N/A (no pictures processed)
+      Head: N/A (no pictures processed)
+   Average store time per single prediction : N/A (no pictures processed)
+
+Analysis of measures/cpp.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0
+   Average model load time: N/A (no batches processed)
+   Average batch load time: N/A (no batches processed)
+   Average foreward time per batch: N/A (no batches processed)
+      Patch Embed: N/A (no batches processed)
+      Position Embed: N/A (no batches processed)
+      Attention: N/A (no batches processed)
+      MLP: N/A (no batches processed)
+      Pool: N/A (no batches processed)
+      Head: N/A (no batches processed)
+   Average store time per prediction batch: N/A (no batches processed)
+   Average picture load time: N/A (no pictures processed)
+   Average foreward time per picture: N/A (no pictures processed)
+      Patch Embed: N/A (no pictures processed)
+      Position Embed: N/A (no pictures processed)
+      Attention: N/A (no pictures processed)
+      MLP: N/A (no pictures processed)
+      Pool: N/A (no pictures processed)
+      Head: N/A (no pictures processed)
+   Average store time per single prediction : N/A (no pictures processed)
+
+Analysis of measures/cpp.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0
+   Average model load time: N/A (no batches processed)
+   Average batch load time: N/A (no batches processed)
+   Average foreward time per batch: N/A (no batches processed)
+      Patch Embed: N/A (no batches processed)
+      Position Embed: N/A (no batches processed)
+      Attention: N/A (no batches processed)
+      MLP: N/A (no batches processed)
+      Pool: N/A (no batches processed)
+      Head: N/A (no batches processed)
+   Average store time per prediction batch: N/A (no batches processed)
+   Average picture load time: N/A (no pictures processed)
+   Average foreward time per picture: N/A (no pictures processed)
+      Patch Embed: N/A (no pictures processed)
+      Position Embed: N/A (no pictures processed)
+      Attention: N/A (no pictures processed)
+      MLP: N/A (no pictures processed)
+      Pool: N/A (no pictures processed)
+      Head: N/A (no pictures processed)
+   Average store time per single prediction : N/A (no pictures processed)
+
+Analysis of measures/cpp.csv:
+   Number of batches: 0
+   Number of pictures: 0
+   Total time to analyze the dataset: 0.0
+   Average model load time: N/A (no batches processed)
+   Average batch load time: N/A (no batches processed)
+   Average foreward time per batch: N/A (no batches processed)
+      Patch Embed: N/A (no batches processed)
+      Position Embed: N/A (no batches processed)
+      Attention: N/A (no batches processed)
+      MLP: N/A (no batches processed)
+      Pool: N/A (no batches processed)
+      Head: N/A (no batches processed)
+   Average store time per prediction batch: N/A (no batches processed)
+   Average picture load time: N/A (no pictures processed)
+   Average foreward time per picture: N/A (no pictures processed)
+      Patch Embed: N/A (no pictures processed)
+      Position Embed: N/A (no pictures processed)
+      Attention: N/A (no pictures processed)
+      MLP: N/A (no pictures processed)
+      Pool: N/A (no pictures processed)
+      Head: N/A (no pictures processed)
+   Average store time per single prediction : N/A (no pictures processed)
+
+Analysis of measures/cpp.csv:
+   Number of batches: 1
+   Number of pictures: 16
+   Total time to analyze the dataset: 17.567160358
+   Average model load time: 0.033755 s
+   Average batch load time: 0.000330776 s
+   Average foreward time per batch: 17.530776152 s
+      Patch Embed: 0.121023 s
+      Position Embed: 0.000822062 s
+      Attention: 0.8759031250000001 s/block
+      MLP: 1.2996325 s/block
+      Pool: 0.0021938 s
+      Head: 0.00245229 s
+   Average store time per prediction batch: 0.00229843 s
+   Average picture load time: 2.06735e-05 s
+   Average foreward time per picture: 1.0956735095 s
+      Patch Embed: 0.0075639375 s
+      Position Embed: 5.1378875e-05 s
+      Attention: 0.05474394531250001 s/block
+      MLP: 0.08122703125 s/block
+      Pool: 0.0001371125 s
+      Head: 0.000153268125 s
+   Average store time per single prediction : 0.000143651875 s
+

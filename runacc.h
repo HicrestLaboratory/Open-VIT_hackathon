@@ -2,7 +2,6 @@
 
 source params.sh
 
-
 # Check if profiling is enabled
 PROFILE=false
 for arg in "$@"; do
@@ -17,6 +16,9 @@ if [ ! -d $CPP_OUT_FOLDER ]; then
 fi
 if [ ! -d $MEASURES_FOLDER ]; then
     mkdir $MEASURES_FOLDER
+fi
+if [ ! -d $ACC_OUT_FOLDER ]; then
+    mkdir $ACC_OUT_FOLDER
 fi
 
 # Create a directory for profiling data
@@ -62,18 +64,15 @@ if $PROFILE; then
     for ((i=0; i<$DTASET_DIM; i++)); do
         # Run the executable with nsys profiling, store the output in the PROFILE_FOLDER with a unique name
         nsys profile --output=$PROFILE_FOLDER/profile_${TIMESTAMP}_$i.nsys-rep ./acc_bin/vit.exe $MODEL_PATH $DTASET_FOLDER/pic_$i.cpic $ACC_OUT_FOLDER/prd_$i.cprd $MEASURES_FOLDER/acc.csv
-##	./bin/vit.exe $MODEL_PATH $DTASET_FOLDER/pic_$i.cpic $CPP_OUT_FOLDER/prd_$i.cprd $MEASURES_FOLDER/cpp.csv
     done
 else
     # Without profiling, just run the normal execution
     for ((i=0; i<$DTASET_DIM; i++)); do
         ./acc_bin/vit.exe $MODEL_PATH $DTASET_FOLDER/pic_$i.cpic $ACC_OUT_FOLDER/prd_$i.cprd $MEASURES_FOLDER/acc.csv 
-##	$MODEL_PATH $DTASET_FOLDER/pic_$i.cpic $CPP_OUT_FOLDER/prd_$i.cprd $MEASURES_FOLDER/cpp.csv
     done
 fi
 
 echo vit executed
 
 # Run Python script to analyze the time measures
-python3 scripts/analyze_time_measures.py $MEASURES_FOLDER/cpp.csv $MEASURES_FOLDER/cpp_summary.txt
-
+python3 scripts/analyze_time_measures.py $MEASURES_FOLDER/acc.csv $MEASURES_FOLDER/acc_summary.txt
