@@ -2,6 +2,10 @@
 
 source params.sh
 
+export ACC_DEVICE_TYPE=GPU
+export ACC_DEVICE_NUM=0
+export ACC_VERBOSE=1
+
 # Check for --profile flag
 PROFILE=false
 for arg in "$@"; do
@@ -61,14 +65,14 @@ if [ "$PROFILE" = true ]; then
     # Run the program with nsys profiling
     for ((i=0; i<$DTASET_DIM; i++)); do
         nsys profile -o "$PROFILE_FOLDER/omp_profile_${TIMESTAMP}_$NUM_THREADS$i" \
-            ./omp_bin/vit.exe "$MODEL_PATH" "$DTASET_FOLDER/pic_$i.cpic" \
+            ./acc_bin/vit.exe "$MODEL_PATH" "$DTASET_FOLDER/pic_$i.cpic" \
             "$OMP_OUT_FOLDER/prd_$i.cprd" "$MEASURES_FOLDER/omp_$NUM_THREADS.csv"
     done
 
 else
     # Run the program normally without profiling
     for ((i=0; i<$DTASET_DIM; i++)); do
-        ./omp_bin/vit.exe "$MODEL_PATH" "$DTASET_FOLDER/pic_$i.cpic" \
+        ./acc_bin/vit.exe "$MODEL_PATH" "$DTASET_FOLDER/pic_$i.cpic" \
             "$OMP_OUT_FOLDER/prd_$i.cprd" "$MEASURES_FOLDER/omp_$NUM_THREADS.csv"
     done
 fi

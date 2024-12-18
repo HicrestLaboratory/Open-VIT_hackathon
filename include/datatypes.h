@@ -2,8 +2,7 @@
 #define __DATATYPES_H__
 
 #include <fstream>
-
-
+#include <openacc.h>
 
 typedef unsigned vit_size;
 typedef float vit_float;
@@ -80,6 +79,7 @@ class Tensor {
 private:
     vit_size B, N, C; // We will deal with three-dimensional tensors
     vit_float* data;
+//#pragma acc enter data copyin(B, N, C) 
 public:
     Tensor();
     Tensor(vit_size _B, vit_size _N, vit_size _C);
@@ -94,13 +94,18 @@ public:
     Tensor operator+ (const Tensor& t) const;
     Tensor& operator+= (const Tensor& t);
 
+    #pragma acc routine
     vit_size get_B() const;
+    #pragma acc routine
     vit_size get_N() const;
+    #pragma acc routine
     vit_size get_C() const;
-    #pragma acc routine seq
+    #pragma acc routine 
     vit_float at(vit_size b, vit_size n, vit_size c) const;
 
+    #pragma acc routine
     void set(vit_size b, vit_size n, vit_size c, vit_float val);
+    #pragma acc routine
     void copy_tensor(const Tensor& t);
 
     void print() const;

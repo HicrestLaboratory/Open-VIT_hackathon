@@ -1,13 +1,18 @@
 # Compiler and Flags
 CC := nvc++
 NVHPC_INCLUDE_PATH := /leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/nvhpc-24.3-v63z4inohb4ywjeggzhlhiuvuoejr2le/Linux_x86_64/24.3
-CUDA_INCLUDE_PATH := $(NVHPC_INCLUDE_PATH)/cuda/include
+CUDA_INCLUDE_PATH := $(NVHPC_INCLUDE_PATH)/cuda/12.3/include
+
+export LD_LIBRARY_PATH=/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/nvhpc-24.3-v63z4inohb4ywjeggzhlhiuvuoejr2le/Linux_x86_64/24.3/cuda/12.3/targets/x86_64-linux/lib/stubs:$LD_LIBRARY_PATH
+
+##ls -l /leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/gcc-8.5.0/nvhpc-24.3-v63z4inohb4ywjeggzhlhiuvuoejr2le/Linux_x86_64/24.3/cuda/12.3/targets/x86_64-linux/lib/stubs/libnvJitLink.so
+
 
 CXXFLAGS := -std=c++11 -O3 -I$(CUDA_INCLUDE_PATH)
 OMPFLAGS := -mp -c -I$(CUDA_INCLUDE_PATH)
 
 # OpenACC / GPU Specific Compiler and Flags
-ACCFLAGS := -mp -acc -gpu=cc80,managed,lineinfo -Minfo=accel,all -Minline=1000
+ACCFLAGS := -mp -acc -gpu=cc80,managed,lineinfo -Minfo=acc  ###-Minline=1000
 LINKFLAGS := -I$(CUDA_INCLUDE_PATH) -lcudart -lcublas -lcufft -lcusolver -lm -lcudart -cudalib=nvtx3  # Linking CUDA runtime
 
 # Directories
@@ -32,8 +37,8 @@ all: vit vit_omp vit_acc
 
 # Clean build
 clean:
-	rm -rf ./$(OBJ_FOLDER) ./$(BIN_FOLDER) ./$(OMP_OBJ_FOLDER) ./$(OMP_BIN_FOLDER) \
-		./$(ACC_OBJ_FOLDER) ./$(ACC_BIN_FOLDER) ./$(TEST_OBJ_FOLDER) ./$(TEST_BIN_FOLDER) \
+	rm -rf ./$(ACC_OBJ_FOLDER) ./$(OBJ_FOLDER) ./$(BIN_FOLDER) ./$(OMP_OBJ_FOLDER) ./$(OMP_BIN_FOLDER) \
+		./$(ACC_BIN_FOLDER) ./$(TEST_OBJ_FOLDER) ./$(TEST_BIN_FOLDER) \
 		./out_comparison ./test_files
 
 # OBJs (for CPU build using standard g++)

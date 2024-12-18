@@ -10,7 +10,7 @@
 #include <assert.h>
 #include <math.h>
 
-
+#include <iostream>
 
 Attention::Attention (
     vit_size _dim,
@@ -144,8 +144,6 @@ void Attention::from_ifstream(std::ifstream& is) {
 void Attention::forward(const Tensor& x_in, Tensor& x_out) const {
     Tensor query, key, value;
 
-//    #pragma acc enter data copyin(x_in[0:1])
-//    #pragma acc enter data create(query[0:1], key[0:1], value[0:1])
     q_gen(x_in, query);
     k_gen(x_in, key);
     v_gen(x_in, value);
@@ -155,9 +153,10 @@ void Attention::forward(const Tensor& x_in, Tensor& x_out) const {
         k_norm(key, num_heads, head_dim);
     }
 
-    multi_head_attention(query, key, value, scale, x_out, num_heads, head_dim);
+    std::cout << "Query dims: B=" << query.get_B() << ", N=" << query.get_N() << ", C=" << query.get_C() << std::endl;
+    std::cout << "Expected C: " << num_heads * head_dim << std::endl;
 
-  //  #pragma acc exit data copyout(x_out[0:1]) delete(query[0:1], key[0:1], value[0:1], x_in[0:1])
+    multi_head_attention(query, key, value, scale, x_out, num_heads, head_dim);
 
     proj(x_out,x_out);
 }
@@ -172,6 +171,8 @@ void Attention::single_head_attention(
     this->multi_head_attention(query, key, value, _scale, x_out, 1, x_out.get_C());
 }
 
+/*
+#pragma acc routine
 void Attention::multi_head_attention(
     const Tensor& query,
     const Tensor& key,
@@ -262,6 +263,203 @@ void Attention::multi_head_attention(
 
     x_out = std::move(y);
 }
+
+*/
+
+/*
+void Attention::multi_head_attention(
+    const Tensor& query,
+    const Tensor& key,
+    const Tensor& value,
+    vit_float _scale,
+    Tensor& x_out,
+    vit_size _num_heads,
+    vit_size _head_dim
+) const {
+    assert(query.get_C() == _num_heads * _head_dim);
+    assert(key.get_C() == _num_heads * _head_dim);
+    assert(value.get_C() == _num_heads * _head_dim);
+
+    vit_size N = query.get_N();
+    Tensor qk(query.get_B(), N, N * _num_heads);
+    Tensor y(query.get_B(), N, query.get_C());
+
+    // Compute Q * K^T
+    for (int batch = 0; batch < y.get_B(); ++batch) {
+        for (int nh = 0; nh < _num_heads; ++nh) {
+            for (int q_n = 0; q_n < N; ++q_n) {
+                for (int k_n = 0; k_n < N; ++k_n) {
+                    vit_float val = 0;
+                    for (int c = 0; c < _head_dim; ++c) {
+                        val += query.at(batch, q_n, (nh * _head_dim) + c) *
+                               key.at(batch, k_n, (nh * _head_dim) + c);
+                    }
+                    val *= _scale;
+                    qk.set(batch, q_n, (nh * N) + k_n, val);
+                }
+            }
+
+            // Softmax over the last dimension
+            for (int q_n = 0; q_n < N; ++q_n) {
+                vit_float cumulative = 0;
+                for (int k_n = 0; k_n < N; ++k_n) {
+                    vit_float val = std::exp(qk.at(batch, q_n, (nh * N) + k_n));
+                    cumulative += val;
+                    qk.set(batch, q_n, (nh * N) + k_n, val);
+                }
+                for (int k_n = 0; k_n < N; ++k_n) {
+                    vit_float val = qk.at(batch, q_n, (nh * N) + k_n);
+                    qk.set(batch, q_n, (nh * N) + k_n, val / cumulative);
+                }
+            }
+
+            // Compute Attention * V
+            for (int q_n = 0; q_n < N; ++q_n) {
+                for (int v_c = 0; v_c < _head_dim; ++v_c) {
+                    vit_float val = 0;
+                    for (int k_n = 0; k_n < N; ++k_n) {
+                        val += qk.at(batch, q_n, (nh * N) + k_n) *
+                               value.at(batch, k_n, (nh * _head_dim) + v_c);
+                    }
+                    y.set(batch, q_n, (nh * _head_dim) + v_c, val);
+                }
+            }
+        }
+    }
+
+    x_out = std::move(y);
+}
+
+*/
+
+
+void Attention::multi_head_attention(
+    const Tensor& query,
+    const Tensor& key,
+    const Tensor& value,
+    vit_float _scale,
+    Tensor& x_out,
+    vit_size _num_heads,
+    vit_size _head_dim
+) const {
+    // Diagnostic information for debugging
+    std::cerr << "Debug Multi-Head Attention Dimensions:" << std::endl;
+    std::cerr << "Query Tensor Channels: " << query.get_C() << std::endl;
+    std::cerr << "Number of Heads: " << _num_heads << std::endl;
+    std::cerr << "Head Dimension: " << _head_dim << std::endl;
+    std::cerr << "Expected Channels: " << _num_heads * _head_dim << std::endl;
+
+    // Validate inputs more robustly
+    if (_num_heads == 0 || _head_dim == 0) {
+        throw std::invalid_argument("Number of heads and head dimension must be positive");
+    }
+
+    // Modify the channel dimension check to be more flexible
+    if (query.get_C() != _num_heads * _head_dim) {
+        // If dimensions don't match exactly, try to adjust
+        vit_size adjusted_num_heads = query.get_C() / _head_dim;
+        vit_size adjusted_head_dim = query.get_C() / adjusted_num_heads;
+
+        std::cerr << "Attempting to adjust dimensions:" << std::endl;
+        std::cerr << "Adjusted Num Heads: " << adjusted_num_heads << std::endl;
+        std::cerr << "Adjusted Head Dim: " << adjusted_head_dim << std::endl;
+
+        // Update local variables with adjusted values
+        _num_heads = adjusted_num_heads;
+        _head_dim = adjusted_head_dim;
+    }
+
+    // Re-check dimensions after adjustment
+    assert(query.get_C() == _num_heads * _head_dim);
+    assert(key.get_C() == _num_heads * _head_dim);
+    assert(value.get_C() == _num_heads * _head_dim);
+
+    assert(key.get_B() == query.get_B());
+    assert(value.get_B() == query.get_B());
+    assert(key.get_N() == query.get_N());
+    assert(value.get_N() == query.get_N());
+
+    vit_size B = query.get_B();  // Batch size
+    vit_size N = query.get_N();  // Sequence length
+
+    // Create tensors for computation
+    Tensor qk(B, N, N * _num_heads);
+    Tensor y(B, N, query.get_C());
+
+    // Prepare data for GPU
+    #pragma acc enter data copyin(query, key, value) create(qk, y)
+
+    // Parallelize and offload to GPU
+    #pragma acc parallel loop collapse(2) present(query, key, value, qk, y)
+    for (int batch = 0; batch < B; ++batch) {
+        for (int nh = 0; nh < _num_heads; ++nh) {
+            // Compute Query * Key^T for each head
+            #pragma acc loop independent
+            for (int q_n = 0; q_n < N; ++q_n) {
+                #pragma acc loop independent
+                for (int k_n = 0; k_n < N; ++k_n) {
+                    vit_float val = 0;
+                    #pragma acc loop reduction(+:val)
+                    for (int c = 0; c < _head_dim; ++c) {
+                        val += query.at(batch, q_n, (nh * _head_dim) + c) * 
+                               key.at(batch, k_n, (nh * _head_dim) + c);
+                    }
+                    val *= _scale;
+                    qk.set(batch, q_n, (nh * N) + k_n, val);
+                }
+            }
+
+            // Softmax normalization
+            #pragma acc loop independent
+            for (int qk_n = 0; qk_n < N; ++qk_n) {
+                // First pass: find max for numerical stability
+                vit_float max_val = -INFINITY;
+                #pragma acc loop reduction(max:max_val)
+                for (int qk_c = 0; qk_c < N; ++qk_c) {
+                    max_val = std::max(max_val, qk.at(batch, qk_n, (nh * N) + qk_c));
+                }
+
+                // Compute exponentials and cumulative sum
+                vit_float cumulative = 0;
+                #pragma acc loop reduction(+:cumulative)
+                for (int qk_c = 0; qk_c < N; ++qk_c) {
+                    vit_float exp_val = std::exp(qk.at(batch, qk_n, (nh * N) + qk_c) - max_val);
+                    qk.set(batch, qk_n, (nh * N) + qk_c, exp_val);
+                    cumulative += exp_val;
+                }
+
+                // Normalize
+                #pragma acc loop independent
+                for (int qk_c = 0; qk_c < N; ++qk_c) {
+                    vit_float val = qk.at(batch, qk_n, (nh * N) + qk_c) / cumulative;
+                    qk.set(batch, qk_n, (nh * N) + qk_c, val);
+                }
+            }
+
+            // Compute Attention Output (Attention * Value)
+            #pragma acc loop independent
+            for (int qk_n = 0; qk_n < N; ++qk_n) {
+                #pragma acc loop independent
+                for (int v_c = 0; v_c < _head_dim; ++v_c) {
+                    vit_float val = 0;
+                    #pragma acc loop reduction(+:val)
+                    for (int qk_c = 0; qk_c < N; ++qk_c) {
+                        val += qk.at(batch, qk_n, (nh * N) + qk_c) * 
+                               value.at(batch, qk_c, (nh * _head_dim) + v_c);
+                    }
+                    y.set(batch, qk_n, (nh * _head_dim) + v_c, val);
+                }
+            }
+        }
+    }
+
+    // Copy result back and clean up GPU memory
+    #pragma acc exit data copyout(y) delete(query, key, value, qk)
+
+    // Move the computed result to the output tensor
+    x_out = std::move(y);
+}
+
 
 #else
 

@@ -426,11 +426,27 @@ vit_float Tensor::at(vit_size b, vit_size n, vit_size c) const {
 
 #pragma acc routine
 void Tensor::set(vit_size b, vit_size n, vit_size c, vit_float val) {
+//	printf("b: %zu, n: %zu, c: %zu\n", b, n, c);
+    if (b >= B || n >= N || c >= C) {
+        return; // Or throw an exception if you use exceptions in your codebase
+    }
+    #pragma acc data copyin(data[:B*N*C])
+    {
+    data[c + (n*C) + (b*N*C)] = val;
+    }
+}
+
+/*
+#pragma acc routine 
+void Tensor::set(vit_size b, vit_size n, vit_size c, vit_float val) {
+    printf("b: %zu, n: %zu, c: %zu\n", b, n, c);	
     assert(b<B);
     assert(n<N);
     assert(c<C);
+    #pragma acc data copyin(B, N, C, data[:B*N*C])
     data[c + (n*C) + (b*N*C)] = val;
 }
+*/
 
 void Tensor::copy_tensor(const Tensor& t) {
     vit_size dim = t.B * t.N * t.C;

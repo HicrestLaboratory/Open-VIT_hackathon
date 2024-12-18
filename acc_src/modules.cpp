@@ -9,6 +9,7 @@
 #include <assert.h>
 #include <math.h>
 
+#include <openacc.h>
 
 
 // Linear class
